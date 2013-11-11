@@ -225,6 +225,97 @@ gtest_main/fast:
 .PHONY : gtest_main/fast
 
 #=============================================================================
+# Target rules for targets named ros_mmaster_gencpp
+
+# Build rule for target.
+ros_mmaster_gencpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ros_mmaster_gencpp
+.PHONY : ros_mmaster_gencpp
+
+# fast build rule for target.
+ros_mmaster_gencpp/fast:
+	$(MAKE) -f ros_mmaster/CMakeFiles/ros_mmaster_gencpp.dir/build.make ros_mmaster/CMakeFiles/ros_mmaster_gencpp.dir/build
+.PHONY : ros_mmaster_gencpp/fast
+
+#=============================================================================
+# Target rules for targets named ros_mmaster_generate_messages
+
+# Build rule for target.
+ros_mmaster_generate_messages: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ros_mmaster_generate_messages
+.PHONY : ros_mmaster_generate_messages
+
+# fast build rule for target.
+ros_mmaster_generate_messages/fast:
+	$(MAKE) -f ros_mmaster/CMakeFiles/ros_mmaster_generate_messages.dir/build.make ros_mmaster/CMakeFiles/ros_mmaster_generate_messages.dir/build
+.PHONY : ros_mmaster_generate_messages/fast
+
+#=============================================================================
+# Target rules for targets named ros_mmaster_generate_messages_cpp
+
+# Build rule for target.
+ros_mmaster_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ros_mmaster_generate_messages_cpp
+.PHONY : ros_mmaster_generate_messages_cpp
+
+# fast build rule for target.
+ros_mmaster_generate_messages_cpp/fast:
+	$(MAKE) -f ros_mmaster/CMakeFiles/ros_mmaster_generate_messages_cpp.dir/build.make ros_mmaster/CMakeFiles/ros_mmaster_generate_messages_cpp.dir/build
+.PHONY : ros_mmaster_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named ros_mmaster_generate_messages_lisp
+
+# Build rule for target.
+ros_mmaster_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ros_mmaster_generate_messages_lisp
+.PHONY : ros_mmaster_generate_messages_lisp
+
+# fast build rule for target.
+ros_mmaster_generate_messages_lisp/fast:
+	$(MAKE) -f ros_mmaster/CMakeFiles/ros_mmaster_generate_messages_lisp.dir/build.make ros_mmaster/CMakeFiles/ros_mmaster_generate_messages_lisp.dir/build
+.PHONY : ros_mmaster_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named ros_mmaster_generate_messages_py
+
+# Build rule for target.
+ros_mmaster_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ros_mmaster_generate_messages_py
+.PHONY : ros_mmaster_generate_messages_py
+
+# fast build rule for target.
+ros_mmaster_generate_messages_py/fast:
+	$(MAKE) -f ros_mmaster/CMakeFiles/ros_mmaster_generate_messages_py.dir/build.make ros_mmaster/CMakeFiles/ros_mmaster_generate_messages_py.dir/build
+.PHONY : ros_mmaster_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named ros_mmaster_genlisp
+
+# Build rule for target.
+ros_mmaster_genlisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ros_mmaster_genlisp
+.PHONY : ros_mmaster_genlisp
+
+# fast build rule for target.
+ros_mmaster_genlisp/fast:
+	$(MAKE) -f ros_mmaster/CMakeFiles/ros_mmaster_genlisp.dir/build.make ros_mmaster/CMakeFiles/ros_mmaster_genlisp.dir/build
+.PHONY : ros_mmaster_genlisp/fast
+
+#=============================================================================
+# Target rules for targets named ros_mmaster_genpy
+
+# Build rule for target.
+ros_mmaster_genpy: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ros_mmaster_genpy
+.PHONY : ros_mmaster_genpy
+
+# fast build rule for target.
+ros_mmaster_genpy/fast:
+	$(MAKE) -f ros_mmaster/CMakeFiles/ros_mmaster_genpy.dir/build.make ros_mmaster/CMakeFiles/ros_mmaster_genpy.dir/build
+.PHONY : ros_mmaster_genpy/fast
+
+#=============================================================================
 # Target rules for targets named roscpp_generate_messages_cpp
 
 # Build rule for target.
@@ -360,6 +451,13 @@ help:
 	@echo "... tests"
 	@echo "... gtest"
 	@echo "... gtest_main"
+	@echo "... ros_mmaster_gencpp"
+	@echo "... ros_mmaster_generate_messages"
+	@echo "... ros_mmaster_generate_messages_cpp"
+	@echo "... ros_mmaster_generate_messages_lisp"
+	@echo "... ros_mmaster_generate_messages_py"
+	@echo "... ros_mmaster_genlisp"
+	@echo "... ros_mmaster_genpy"
 	@echo "... roscpp_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... roscpp_generate_messages_py"
