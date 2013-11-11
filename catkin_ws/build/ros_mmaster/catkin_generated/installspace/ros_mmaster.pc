@@ -1,0 +1,8 @@
+prefix=/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/install
+
+Name: ros_mmaster
+Description: Description of ros_mmaster
+Version: 0.0.1
+Cflags: 
+Libs: -L/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/install/lib 
+Requires: 
