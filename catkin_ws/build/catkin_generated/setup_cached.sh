@@ -11,10 +11,10 @@ export ROS_TEST_RESULTS_DIR="/home/vinicius/Dropbox/arv/projetos/mestradocomp/Di
 # modified environment variables
 export CMAKE_PREFIX_PATH="/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/devel:$CMAKE_PREFIX_PATH"
 export CPATH="/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/devel/include:$CPATH"
-export LD_LIBRARY_PATH="/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/devel/lib:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/devel/lib:/opt/ros/hydro/lib:/usr/local/cuda/lib64"
 export PATH="/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/devel/bin:$PATH"
 export PKG_CONFIG_PATH="/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PWD="/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build"
 export PYTHONPATH="/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/devel/lib/python2.7/dist-packages:$PYTHONPATH"
 export ROSLISP_PACKAGE_DIRECTORIES="/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/devel/share/common-lisp"
-export ROS_PACKAGE_PATH="/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/src:/opt/ros/hydro/share:/opt/ros/hydro/stacks"
+export ROS_PACKAGE_PATH="/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/src:$ROS_PACKAGE_PATH"

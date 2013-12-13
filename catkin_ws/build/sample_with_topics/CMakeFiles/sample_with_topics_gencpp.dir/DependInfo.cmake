@@ -7,8 +7,19 @@ SET(CMAKE_DEPENDS_LANGUAGES
 SET(CMAKE_TARGET_DEFINITIONS
   "ROS_BUILD_SHARED_LIBS=1"
   "ROS_PACKAGE_NAME=\"sample_with_topics\""
+  "ROS_BUILD_SHARED_LIBS=1"
+  "ROS_PACKAGE_NAME=\"sample_with_topics\""
   )
 
 # Targets to which this target links.
 SET(CMAKE_TARGET_LINKED_INFO_FILES
   )
+
+# The include file search paths:
+SET(CMAKE_C_TARGET_INCLUDE_PATH
+  "/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/devel/include"
+  "/opt/ros/hydro/include"
+  )
+SET(CMAKE_CXX_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})
+SET(CMAKE_Fortran_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})
+SET(CMAKE_ASM_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})
