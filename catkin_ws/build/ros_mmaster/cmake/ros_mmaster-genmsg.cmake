@@ -2,7 +2,7 @@
 
 message(STATUS "ros_mmaster: 1 messages, 1 services")
 
-set(MSG_I_FLAGS "-Iros_mmaster:/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/src/ros_mmaster/msg;-Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg")
+set(MSG_I_FLAGS "-Iros_mmaster:/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/src/ros_mmaster/msg;-Istd_msgs:/home/vinicius/.ros/hydro/share/std_msgs/cmake/../msg")
 
 # Find all generators
 find_package(gencpp REQUIRED)

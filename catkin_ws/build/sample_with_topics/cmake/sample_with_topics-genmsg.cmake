@@ -2,7 +2,7 @@
 
 message(STATUS "sample_with_topics: 1 messages, 0 services")
 
-set(MSG_I_FLAGS "-Isample_with_topics:/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/src/sample_with_topics/msg;-Istd_msgs:/opt/ros/hydro/share/std_msgs/cmake/../msg")
+set(MSG_I_FLAGS "-Isample_with_topics:/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/src/sample_with_topics/msg;-Istd_msgs:/home/vinicius/.ros/hydro/share/std_msgs/cmake/../msg")
 
 # Find all generators
 find_package(gencpp REQUIRED)

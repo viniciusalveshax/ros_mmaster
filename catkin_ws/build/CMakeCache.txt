@@ -240,22 +240,22 @@ _CATKIN_GTEST_INCLUDE:FILEPATH=_CATKIN_GTEST_INCLUDE-NOTFOUND
 _CATKIN_GTEST_SRC:FILEPATH=/usr/src/gtest/src/gtest.cc
 
 //The directory containing a CMake configuration file for catkin.
-catkin_DIR:PATH=/opt/ros/hydro/share/catkin/cmake
+catkin_DIR:PATH=/home/vinicius/.ros/hydro/share/catkin/cmake
 
 //The directory containing a CMake configuration file for cpp_common.
-cpp_common_DIR:PATH=/opt/ros/hydro/share/cpp_common/cmake
+cpp_common_DIR:PATH=/home/vinicius/.ros/hydro/share/cpp_common/cmake
 
 //The directory containing a CMake configuration file for gencpp.
-gencpp_DIR:PATH=/opt/ros/hydro/share/gencpp/cmake
+gencpp_DIR:PATH=/home/vinicius/.ros/hydro/share/gencpp/cmake
 
 //The directory containing a CMake configuration file for genlisp.
-genlisp_DIR:PATH=/opt/ros/hydro/share/genlisp/cmake
+genlisp_DIR:PATH=/home/vinicius/.ros/hydro/share/genlisp/cmake
 
 //The directory containing a CMake configuration file for genmsg.
-genmsg_DIR:PATH=/opt/ros/hydro/share/genmsg/cmake
+genmsg_DIR:PATH=/home/vinicius/.ros/hydro/share/genmsg/cmake
 
 //The directory containing a CMake configuration file for genpy.
-genpy_DIR:PATH=/opt/ros/hydro/share/genpy/cmake
+genpy_DIR:PATH=/home/vinicius/.ros/hydro/share/genpy/cmake
 
 //Value Computed by CMake
 gtest_BINARY_DIR:STATIC=/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build/gtest
@@ -283,13 +283,13 @@ gtest_force_shared_crt:BOOL=OFF
 gtest_main_LIB_DEPENDS:STATIC=general;-lpthread;general;gtest;
 
 //Path to a library.
-lib:FILEPATH=/opt/ros/hydro/lib/libxmlrpcpp.so
+lib:FILEPATH=/home/vinicius/.ros/hydro/lib/libxmlrpcpp.so
 
 //The directory containing a CMake configuration file for message_generation.
-message_generation_DIR:PATH=/opt/ros/hydro/share/message_generation/cmake
+message_generation_DIR:PATH=/home/vinicius/.ros/hydro/share/message_generation/cmake
 
 //The directory containing a CMake configuration file for message_runtime.
-message_runtime_DIR:PATH=/opt/ros/hydro/share/message_runtime/cmake
+message_runtime_DIR:PATH=/home/vinicius/.ros/hydro/share/message_runtime/cmake
 
 //Value Computed by CMake
 ros_mmaster_BINARY_DIR:STATIC=/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build/ros_mmaster
@@ -298,22 +298,22 @@ ros_mmaster_BINARY_DIR:STATIC=/home/vinicius/Dropbox/arv/projetos/mestradocomp/D
 ros_mmaster_SOURCE_DIR:STATIC=/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/src/ros_mmaster
 
 //The directory containing a CMake configuration file for rosconsole.
-rosconsole_DIR:PATH=/opt/ros/hydro/share/rosconsole/cmake
+rosconsole_DIR:PATH=/home/vinicius/.ros/hydro/share/rosconsole/cmake
 
 //The directory containing a CMake configuration file for roscpp.
-roscpp_DIR:PATH=/opt/ros/hydro/share/roscpp/cmake
+roscpp_DIR:PATH=/home/vinicius/.ros/hydro/share/roscpp/cmake
 
 //The directory containing a CMake configuration file for roscpp_serialization.
-roscpp_serialization_DIR:PATH=/opt/ros/hydro/share/roscpp_serialization/cmake
+roscpp_serialization_DIR:PATH=/home/vinicius/.ros/hydro/share/roscpp_serialization/cmake
 
 //The directory containing a CMake configuration file for roscpp_traits.
-roscpp_traits_DIR:PATH=/opt/ros/hydro/share/roscpp_traits/cmake
+roscpp_traits_DIR:PATH=/home/vinicius/.ros/hydro/share/roscpp_traits/cmake
 
 //The directory containing a CMake configuration file for rosgraph_msgs.
-rosgraph_msgs_DIR:PATH=/opt/ros/hydro/share/rosgraph_msgs/cmake
+rosgraph_msgs_DIR:PATH=/home/vinicius/.ros/hydro/share/rosgraph_msgs/cmake
 
 //The directory containing a CMake configuration file for rostime.
-rostime_DIR:PATH=/opt/ros/hydro/share/rostime/cmake
+rostime_DIR:PATH=/home/vinicius/.ros/hydro/share/rostime/cmake
 
 //Value Computed by CMake
 sample_with_topics_BINARY_DIR:STATIC=/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build/sample_with_topics
@@ -322,10 +322,10 @@ sample_with_topics_BINARY_DIR:STATIC=/home/vinicius/Dropbox/arv/projetos/mestrad
 sample_with_topics_SOURCE_DIR:STATIC=/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/src/sample_with_topics
 
 //The directory containing a CMake configuration file for std_msgs.
-std_msgs_DIR:PATH=/opt/ros/hydro/share/std_msgs/cmake
+std_msgs_DIR:PATH=/home/vinicius/.ros/hydro/share/std_msgs/cmake
 
 //The directory containing a CMake configuration file for xmlrpcpp.
-xmlrpcpp_DIR:PATH=/opt/ros/hydro/share/xmlrpcpp/cmake
+xmlrpcpp_DIR:PATH=/home/vinicius/.ros/hydro/share/xmlrpcpp/cmake
 
 
 ########################
