@@ -1,4 +1,6 @@
 catkin_ws/build/*
 catkin_ws/devel/*
 catkin_ws/src/sample_with_topics/src/*~
+catkin_ws/src/sample_with_topics/*~
 catkin_ws/src/ros_mmaster/src/*~
+catkin_ws/src/ros_mmaster/*~
