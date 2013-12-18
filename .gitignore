@@ -1,6 +1,4 @@
-catkin_ws/build/sample_with_topics/CMakeFiles/listener.dir/src/
-catkin_ws/build/sample_with_topics/CMakeFiles/talker.dir/src/
-catkin_ws/devel/lib/sample_with_topics/
-catkin_ws/devel/lib/sample_with_topics/
+catkin_ws/build/*
+catkin_ws/devel/*
 catkin_ws/src/sample_with_topics/src/*~
 catkin_ws/src/ros_mmaster/src/*~
