@@ -228,6 +228,19 @@ gtest_main/fast:
 .PHONY : gtest_main/fast
 
 #=============================================================================
+# Target rules for targets named mmaster
+
+# Build rule for target.
+mmaster: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 mmaster
+.PHONY : mmaster
+
+# fast build rule for target.
+mmaster/fast:
+	$(MAKE) -f ros_mmaster/CMakeFiles/mmaster.dir/build.make ros_mmaster/CMakeFiles/mmaster.dir/build
+.PHONY : mmaster/fast
+
+#=============================================================================
 # Target rules for targets named ros_mmaster_gencpp
 
 # Build rule for target.
@@ -571,6 +584,7 @@ help:
 	@echo "... tests"
 	@echo "... gtest"
 	@echo "... gtest_main"
+	@echo "... mmaster"
 	@echo "... ros_mmaster_gencpp"
 	@echo "... ros_mmaster_generate_messages"
 	@echo "... ros_mmaster_generate_messages_cpp"

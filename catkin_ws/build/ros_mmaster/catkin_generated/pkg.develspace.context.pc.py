@@ -5,4 +5,4 @@ PROJECT_CATKIN_DEPENDS = "roscpp;std_msgs;message_runtime".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "ros_mmaster"
 PROJECT_SPACE_DIR = "/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/devel"
-PROJECT_VERSION = "0.0.1"
+PROJECT_VERSION = "0.0.2"

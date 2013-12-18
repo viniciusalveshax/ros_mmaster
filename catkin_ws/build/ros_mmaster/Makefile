@@ -150,6 +150,20 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+ros_mmaster/CMakeFiles/mmaster.dir/rule:
+	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ros_mmaster/CMakeFiles/mmaster.dir/rule
+.PHONY : ros_mmaster/CMakeFiles/mmaster.dir/rule
+
+# Convenience name for target.
+mmaster: ros_mmaster/CMakeFiles/mmaster.dir/rule
+.PHONY : mmaster
+
+# fast build rule for target.
+mmaster/fast:
+	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f ros_mmaster/CMakeFiles/mmaster.dir/build.make ros_mmaster/CMakeFiles/mmaster.dir/build
+.PHONY : mmaster/fast
+
+# Convenience name for target.
 ros_mmaster/CMakeFiles/ros_mmaster_gencpp.dir/rule:
 	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ros_mmaster/CMakeFiles/ros_mmaster_gencpp.dir/rule
 .PHONY : ros_mmaster/CMakeFiles/ros_mmaster_gencpp.dir/rule
@@ -373,6 +387,30 @@ std_msgs_generate_messages_py/fast:
 	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f ros_mmaster/CMakeFiles/std_msgs_generate_messages_py.dir/build.make ros_mmaster/CMakeFiles/std_msgs_generate_messages_py.dir/build
 .PHONY : std_msgs_generate_messages_py/fast
 
+src/mmaster.o: src/mmaster.cpp.o
+.PHONY : src/mmaster.o
+
+# target to build an object file
+src/mmaster.cpp.o:
+	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f ros_mmaster/CMakeFiles/mmaster.dir/build.make ros_mmaster/CMakeFiles/mmaster.dir/src/mmaster.cpp.o
+.PHONY : src/mmaster.cpp.o
+
+src/mmaster.i: src/mmaster.cpp.i
+.PHONY : src/mmaster.i
+
+# target to preprocess a source file
+src/mmaster.cpp.i:
+	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f ros_mmaster/CMakeFiles/mmaster.dir/build.make ros_mmaster/CMakeFiles/mmaster.dir/src/mmaster.cpp.i
+.PHONY : src/mmaster.cpp.i
+
+src/mmaster.s: src/mmaster.cpp.s
+.PHONY : src/mmaster.s
+
+# target to generate assembly for a file
+src/mmaster.cpp.s:
+	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f ros_mmaster/CMakeFiles/mmaster.dir/build.make ros_mmaster/CMakeFiles/mmaster.dir/src/mmaster.cpp.s
+.PHONY : src/mmaster.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -384,6 +422,7 @@ help:
 	@echo "... install/local"
 	@echo "... install/strip"
 	@echo "... list_install_components"
+	@echo "... mmaster"
 	@echo "... rebuild_cache"
 	@echo "... ros_mmaster_gencpp"
 	@echo "... ros_mmaster_generate_messages"
@@ -402,6 +441,9 @@ help:
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... test"
+	@echo "... src/mmaster.o"
+	@echo "... src/mmaster.i"
+	@echo "... src/mmaster.s"
 .PHONY : help
 
 
