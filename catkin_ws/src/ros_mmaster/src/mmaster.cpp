@@ -56,7 +56,10 @@ while(addresses_map.count(this->port) > 0)
  																																							// max port number is 65536
   }
 
-cout << "Add my host and port                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                                                                                                                                                                                                                                                
+addresses_map.insert(std::pair<int,string>(this->port,this->host));
+
+cout << "Add my host and port to address list";
+cout << "Hostname: " << this->host << ", port: " << this->port << endl;
 
 }
 
