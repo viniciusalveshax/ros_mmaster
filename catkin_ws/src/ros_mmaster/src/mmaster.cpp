@@ -2,17 +2,25 @@
 #include "string"
 #include <boost/thread.hpp>
 #include <map>
+#include <sstream>
 
 using namespace std;
 
-class MMasterNode {
-string host;
-int port;
+bool thread_exit;
 
-string addMyAddress(string); //TODO
+class MMasterNode {
+
+public:
+  string host;
+  int port;
+
+string addMyAddress(string);
+string removeMyAddress(string);
+string myAddress(void);
 
 };
 
+// Method that add MMaster address to mmaster addresses list
 string MMasterNode::addMyAddress(string mmaster_addresses)
 {
 int end = 0;
@@ -62,6 +70,62 @@ cout << "Add my host and port to address list";
 cout << "Hostname: " << this->host << ", port: " << this->port << endl;
 
 }
+// End of method addMyAddress
+
+
+// Method that remove MMaster address to mmaster addresses list
+string MMasterNode::removeMyAddress(string mmaster_addresses)
+{
+int address_position, coma_position;
+string before_addresses, after_addresses;
+
+// Discover my address position
+address_position = mmaster_addresses.find_first_of(MMasterNode::myAddress());
+
+// Get addresses before my address
+before_addresses = mmaster_addresses.substr(0, address_position-1);
+
+// Get next address separator after my address. The separator is a ';'
+coma_position    = mmaster_addresses.find_first_of(";", address_position+1);
+
+// Get addresses after my address
+after_addresses  = mmaster_addresses.substr(coma_position+1, mmaster_addresses.size());
+
+return before_addresses+after_addresses;
+
+}
+// End of method removeMyAddress
+
+
+
+// Method that return my address
+string MMasterNode::myAddress(void)
+{
+ostringstream address;
+address << this->host << ":" << this->port;
+return address.str();
+}
+// End of method myAddress
+
+
+
+// Function to solve names requisitions
+void resolve_names(void)
+{
+
+boost::posix_time::seconds workTime(5);  
+
+// Wait a requisition
+while(thread_exit == false)
+{
+  cout << "Executing thread to solve names ..." << endl; 
+  boost::this_thread::sleep(workTime);
+
+}
+
+}
+// End of resolve_names function
+
 
 int main(int argc, char **argv)
 {
@@ -81,7 +145,7 @@ int main(int argc, char **argv)
 				node_handle.getParam("/mmaster_addresses", mmaster_addresses);
     }
 
-  node_handle.setParam("/mmaster_addresses", mmaster.addMyAddress(mmaster_address));
+  node_handle.setParam("/mmaster_addresses", mmaster.addMyAddress(mmaster_addresses));
 
   boost::thread resolve_names_thread(resolve_names);
 
@@ -102,7 +166,7 @@ int main(int argc, char **argv)
 		node_handle.getParam("/mmaster_addresses", mmaster_addresses);
 
   // Remove my address from parameter server
-  node_handle.setParam("/mmaster_addresses", mmaster.removeMyAddress(mmaster_address));
+  node_handle.setParam("/mmaster_addresses", mmaster.removeMyAddress(mmaster_addresses));
 
   // Finalize thread who solve names
   resolve_names_thread.join();
