@@ -121,6 +121,32 @@ while(thread_exit == false)
   cout << "Executing thread to solve names ..." << endl; 
   boost::this_thread::sleep(workTime);
 
+  if (message == "quit")
+  // TODO
+  // if a mmaster node has quit then ...
+  // update mmaster next and prev address
+
+  if (message == "solve")
+  // TODO
+  // consult internal table
+    if (haveResult)
+      // TODO
+      // send a reply with result
+    else 
+      {
+      // TODO
+      // consult other masters
+      if (should_i_know)
+        //TODO
+        // i am responsible by the result but a i dont have info
+        // send reply to centralized Master node        
+        // get info
+      else
+        // forward requisition to another mmaster node
+        // get info
+      // now i have the necessary info
+      // send a reply with result
+      }
 }
 
 }
@@ -164,6 +190,9 @@ int main(int argc, char **argv)
 
   // Get updated list from parameter server
 		node_handle.getParam("/mmaster_addresses", mmaster_addresses);
+
+  // TODO
+  // send a notification to others masters to notify that i am leaving
 
   // Remove my address from parameter server
   node_handle.setParam("/mmaster_addresses", mmaster.removeMyAddress(mmaster_addresses));
