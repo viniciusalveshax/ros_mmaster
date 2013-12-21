@@ -3,10 +3,9 @@
 #include <boost/thread.hpp>
 #include <map>
 #include <sstream>
+#include "XmlRpc.h"
 
 using namespace std;
-
-bool thread_exit;
 
 class MMasterNode {
 
@@ -19,6 +18,8 @@ string removeMyAddress(string);
 string myAddress(void);
 
 };
+
+
 
 // Method that add MMaster address to mmaster addresses list
 string MMasterNode::addMyAddress(string mmaster_addresses)
@@ -121,6 +122,16 @@ while(thread_exit == false)
   cout << "Executing thread to solve names ..." << endl; 
   boost::this_thread::sleep(workTime);
 
+  XmlRpc::setVerbosity(5);
+
+  XmlRpcServer s;
+
+  s.bindAndListen(mmaster.port);
+
+  s.work(-1.0);
+
+/*  
+
   if (message == "quit")
   // TODO
   // if a mmaster node has quit then ...
@@ -147,18 +158,40 @@ while(thread_exit == false)
       // now i have the necessary info
       // send a reply with result
       }
+*/
+
 }
 
 }
 // End of resolve_names function
 
 
+bool thread_exit;
+MMasterNode mmaster;
+XmlRpcServer s;
+
+// Original sample code by XmlRPC++
+// http://xmlrpcpp.sourceforge.net/faq.html
+class Sum : public XmlRpcServerMethod
+{
+public:
+  Sum(XmlRpcServer* s) : XmlRpcServerMethod("Sum", s) {}
+
+  void execute(XmlRpcValue& params, XmlRpcValue& result)
+  {
+    int nArgs = params.size();
+    double sum = 0.0;
+    for (int i=0; i<nArgs; ++i)
+      sum += double(params[i]);
+    result = sum;
+  }
+} sum(&s);
+
 int main(int argc, char **argv)
 {
 
   ros::init(argc, argv, "mmaster");
 
-  MMasterNode mmaster;
   mmaster.host = "localhost";
   mmaster.port = (rand() % 64512) + 1024; // choose a random a port between 1024 and 65536
 																																													// ports below 1024 requires root privileges and
