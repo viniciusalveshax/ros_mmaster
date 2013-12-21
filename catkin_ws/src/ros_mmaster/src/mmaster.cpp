@@ -5,7 +5,10 @@
 #include <sstream>
 #include "XmlRpc.h"
 
+#define DEBUG 1
+
 using namespace std;
+using namespace XmlRpc;
 
 class MMasterNode {
 
@@ -21,6 +24,12 @@ string myAddress(void);
 
 
 
+bool thread_exit;
+MMasterNode mmaster;
+XmlRpcServer s;
+
+
+
 // Method that add MMaster address to mmaster addresses list
 string MMasterNode::addMyAddress(string mmaster_addresses)
 {
@@ -30,9 +39,18 @@ int colon;
 string address, tmp_hostname;
 std::pair<std::map<int,string>::iterator,bool> ret_value;
 int tmp_port;
+ostringstream mmaster_addresses_final;
+
+#ifdef DEBUG
+cout << "mmaster_addresses: " << mmaster_addresses << "." << endl;
+#endif
 
 while (mmaster_addresses != "")
   {
+
+  #ifdef DEBUG
+  cout << "Entrou no while1" << endl;
+  #endif
 
   // Find mmaster_address separator
 	 end = mmaster_addresses.find_first_of(";");
@@ -56,10 +74,21 @@ while (mmaster_addresses != "")
 
 	 mmaster_addresses = mmaster_addresses.substr(end+1,mmaster_addresses.size());
 
-	 }
+	 } // end while
+
+addresses_map.insert(std::pair<int,string>(200, "ola"));
+
+#ifdef DEBUG
+cout << "Conseguiu inserir elemento no map" << endl;
+#endif
 
 while(addresses_map.count(this->port) > 0)
   {
+
+  #ifdef DEBUG
+  cout << "Entrou no while2" << endl;
+  #endif
+
   this->port = (rand() % 64512) + 1024; // choose a random a port between 1024 and 65536
 																																								// ports below 1024 requires root privileges and
  																																							// max port number is 65536
@@ -67,8 +96,12 @@ while(addresses_map.count(this->port) > 0)
 
 addresses_map.insert(std::pair<int,string>(this->port,this->host));
 
-cout << "Add my host and port to address list";
+cout << "Add my host and port to address list" << endl;
 cout << "Hostname: " << this->host << ", port: " << this->port << endl;
+
+mmaster_addresses_final << mmaster_addresses << ";" << this->host << ":" << this->port;
+
+return mmaster_addresses_final.str();
 
 }
 // End of method addMyAddress
@@ -165,11 +198,6 @@ while(thread_exit == false)
 }
 // End of resolve_names function
 
-
-bool thread_exit;
-MMasterNode mmaster;
-XmlRpcServer s;
-
 // Original sample code by XmlRPC++
 // http://xmlrpcpp.sourceforge.net/faq.html
 class Sum : public XmlRpcServerMethod
@@ -198,13 +226,22 @@ int main(int argc, char **argv)
  																																												// max port number is 65536
   ros::NodeHandle node_handle;
   string mmaster_addresses;
+
+//  exit(1);
+
   if (node_handle.hasParam("/mmaster_addresses"))
 				{
     // There is another mmaster running, get their address and atach my address
 				node_handle.getParam("/mmaster_addresses", mmaster_addresses);
     }
 
+#ifdef DEBUG
+  cout << "mmaster_addresses after addMyAddress: " << mmaster.addMyAddress(mmaster_addresses) << "." << endl;
+#endif
+
   node_handle.setParam("/mmaster_addresses", mmaster.addMyAddress(mmaster_addresses));
+
+exit(1);
 
   boost::thread resolve_names_thread(resolve_names);
 
