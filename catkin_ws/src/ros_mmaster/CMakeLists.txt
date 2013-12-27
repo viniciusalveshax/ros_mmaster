@@ -39,7 +39,9 @@ include_directories(
 # )
 
 add_executable(mmaster src/mmaster.cpp)
+add_executable(xmlclient src/xmlclient.cpp)
 
 add_dependencies(mmaster mmaster_generate_messages_cpp)
 
 target_link_libraries(mmaster ${catkin_LIBRARIES})
+target_link_libraries(xmlclient ${catkin_LIBRARIES})
