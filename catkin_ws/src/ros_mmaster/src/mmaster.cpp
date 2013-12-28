@@ -1,6 +1,5 @@
 #include "ros/ros.h"
 #include <string>
-#include <boost/thread.hpp>
 #include <map>
 #include <sstream>
 #include "XmlRpc.h"
@@ -11,31 +10,8 @@
 using namespace std;
 using namespace XmlRpc;
 
-bool thread_exit;
 MMasterNode mmaster;
 XmlRpcServer s;
-
-// Function to solve names requisitions
-void resolve_names(void)
-{
-
-boost::posix_time::seconds workTime(5);  
-
-// Wait a requisition
-//while(thread_exit == false)
-//{
-  cout << "resolve: Executing thread to solve names ..." << endl; 
-//  boost::this_thread::sleep(workTime);
-
-  XmlRpc::setVerbosity(1);
-
-#ifdef DEBUG
-  cout << "resolve: MMaster port: " << mmaster.port << endl;
-#endif
-
-  s.bindAndListen(mmaster.port);
-
-  s.work(-1.0);
 
 /*  
 
@@ -66,12 +42,6 @@ boost::posix_time::seconds workTime(5);
       // send a reply with result
       }
 */
-
-//}
-
-}
-// End of resolve_names function
-
 
 // No arguments, result is "Hello".
 class Hello : public XmlRpcServerMethod
@@ -142,17 +112,10 @@ public:
 int main(int argc, char **argv)
 {
 
-//  XmlRpc::setVerbosity(5);
-
-//  s.bindAndListen(3333);
-
-//exit(1);
-
   ros::init(argc, argv, "mmaster");
 
   mmaster.host = "localhost";
-  mmaster.port = (rand() % 64512) + 1024;    // choose a random a port between 1024 and 65536
-																																													// ports below 1024 requires root privileges and
+  mmaster.port = (rand() % 64512) + 1024;    // choose a random a port between 1024 and 65536																																									// ports below 1024 requires root privileges and
  																																												// max port number is 65536
   ros::NodeHandle node_handle;
   string mmaster_addresses;
@@ -173,8 +136,6 @@ int main(int argc, char **argv)
   #endif
 
   node_handle.setParam("/mmaster_addresses", mmaster.addMyAddress(mmaster_addresses));
-
-//  boost::thread resolve_names_thread(resolve_names);
 
   s.bindAndListen(mmaster.port);
   s.work(-1.0);
@@ -199,8 +160,6 @@ int main(int argc, char **argv)
       }
     }
 
-  thread_exit=true;
-
   // Get updated list from parameter server
   node_handle.getParam("/mmaster_addresses", mmaster_addresses);
 
@@ -216,9 +175,6 @@ int main(int argc, char **argv)
     }
   else
     node_handle.deleteParam("/mmaster_addresses");
-
-  // Finalize thread who solve names
-//  resolve_names_thread.join();
 
   return 0;
 }
