@@ -449,6 +449,19 @@ std_msgs_generate_messages_py/fast:
 .PHONY : std_msgs_generate_messages_py/fast
 
 #=============================================================================
+# Target rules for targets named xmlclient
+
+# Build rule for target.
+xmlclient: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 xmlclient
+.PHONY : xmlclient
+
+# fast build rule for target.
+xmlclient/fast:
+	$(MAKE) -f ros_mmaster/CMakeFiles/xmlclient.dir/build.make ros_mmaster/CMakeFiles/xmlclient.dir/build
+.PHONY : xmlclient/fast
+
+#=============================================================================
 # Target rules for targets named listener
 
 # Build rule for target.
@@ -601,6 +614,7 @@ help:
 	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... std_msgs_generate_messages_py"
+	@echo "... xmlclient"
 	@echo "... listener"
 	@echo "... sample_with_topics_gencpp"
 	@echo "... sample_with_topics_generate_messages"

@@ -387,6 +387,20 @@ std_msgs_generate_messages_py/fast:
 	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f ros_mmaster/CMakeFiles/std_msgs_generate_messages_py.dir/build.make ros_mmaster/CMakeFiles/std_msgs_generate_messages_py.dir/build
 .PHONY : std_msgs_generate_messages_py/fast
 
+# Convenience name for target.
+ros_mmaster/CMakeFiles/xmlclient.dir/rule:
+	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ros_mmaster/CMakeFiles/xmlclient.dir/rule
+.PHONY : ros_mmaster/CMakeFiles/xmlclient.dir/rule
+
+# Convenience name for target.
+xmlclient: ros_mmaster/CMakeFiles/xmlclient.dir/rule
+.PHONY : xmlclient
+
+# fast build rule for target.
+xmlclient/fast:
+	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f ros_mmaster/CMakeFiles/xmlclient.dir/build.make ros_mmaster/CMakeFiles/xmlclient.dir/build
+.PHONY : xmlclient/fast
+
 src/mmaster.o: src/mmaster.cpp.o
 .PHONY : src/mmaster.o
 
@@ -410,6 +424,30 @@ src/mmaster.s: src/mmaster.cpp.s
 src/mmaster.cpp.s:
 	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f ros_mmaster/CMakeFiles/mmaster.dir/build.make ros_mmaster/CMakeFiles/mmaster.dir/src/mmaster.cpp.s
 .PHONY : src/mmaster.cpp.s
+
+src/xmlclient.o: src/xmlclient.cpp.o
+.PHONY : src/xmlclient.o
+
+# target to build an object file
+src/xmlclient.cpp.o:
+	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f ros_mmaster/CMakeFiles/xmlclient.dir/build.make ros_mmaster/CMakeFiles/xmlclient.dir/src/xmlclient.cpp.o
+.PHONY : src/xmlclient.cpp.o
+
+src/xmlclient.i: src/xmlclient.cpp.i
+.PHONY : src/xmlclient.i
+
+# target to preprocess a source file
+src/xmlclient.cpp.i:
+	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f ros_mmaster/CMakeFiles/xmlclient.dir/build.make ros_mmaster/CMakeFiles/xmlclient.dir/src/xmlclient.cpp.i
+.PHONY : src/xmlclient.cpp.i
+
+src/xmlclient.s: src/xmlclient.cpp.s
+.PHONY : src/xmlclient.s
+
+# target to generate assembly for a file
+src/xmlclient.cpp.s:
+	cd /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build && $(MAKE) -f ros_mmaster/CMakeFiles/xmlclient.dir/build.make ros_mmaster/CMakeFiles/xmlclient.dir/src/xmlclient.cpp.s
+.PHONY : src/xmlclient.cpp.s
 
 # Help Target
 help:
@@ -441,9 +479,13 @@ help:
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... test"
+	@echo "... xmlclient"
 	@echo "... src/mmaster.o"
 	@echo "... src/mmaster.i"
 	@echo "... src/mmaster.s"
+	@echo "... src/xmlclient.o"
+	@echo "... src/xmlclient.i"
+	@echo "... src/xmlclient.s"
 .PHONY : help
 
 

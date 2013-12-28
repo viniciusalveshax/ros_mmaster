@@ -30,3 +30,4 @@
 /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build/ros_mmaster/CMakeFiles/std_msgs_generate_messages_py.dir
 /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build/sample_with_topics/CMakeFiles/talker.dir
 /home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build/CMakeFiles/tests.dir
+/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/build/ros_mmaster/CMakeFiles/xmlclient.dir
