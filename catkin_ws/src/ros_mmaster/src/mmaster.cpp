@@ -5,13 +5,10 @@
 #include <sstream>
 #include "XmlRpc.h"
 
-
-#define DEBUG 1
-
+#define DEBUG
 
 using namespace std;
 using namespace XmlRpc;
-
 
 class MMasterNode {
 
@@ -22,6 +19,7 @@ public:
 string addMyAddress(string);
 string removeMyAddress(string);
 string myAddress(void);
+void   printServerInfo(void);
 
 };
 
@@ -166,7 +164,22 @@ cout << "before_addresses " << before_addresses << endl;
 coma_position    = mmaster_addresses.find(";", address_position+1);
 
 if (coma_position == -1) //So my address is the last
-  return before_addresses;
+  {
+  #ifdef DEBUG
+  cout << "Returning before_addresses" << endl;
+  #endif
+  
+  if (address_position == 0) // If address_position = 0 then I am the first
+                             // and if the coma_position = -1 I am the last too
+                             // so return a empty string
+    {
+	return "";
+    }
+  else
+    {
+    return before_addresses;
+    }
+  }
 
 #ifdef DEBUG
 cout << "coma position " << coma_position << endl;
@@ -179,8 +192,16 @@ cout << "after_addresses " << after_addresses << endl;
 #endif
 
 if (address_position == 0) // So my address is the first
+  {
+  #ifdef DEBUG
+  cout << "Returning after_addresses" << endl;
+  #endif
   return after_addresses;
+  }
 
+#ifdef DEBUG
+cout << "Returning before_addresses + after_addresses" << endl;
+#endif
 return before_addresses+";"+after_addresses;
 
 }
@@ -196,6 +217,12 @@ return address.str();
 }
 // End of method myAddress
 
+
+void MMasterNode::printServerInfo(void)
+{
+  cout << "Hostname: " << this->host << endl;
+  cout << "Port: " << this->port << endl;
+}
 
 // Function to solve names requisitions
 void resolve_names(void)
@@ -356,21 +383,28 @@ int main(int argc, char **argv)
 
   node_handle.setParam("/mmaster_addresses", mmaster.addMyAddress(mmaster_addresses));
 
-  boost::thread resolve_names_thread(resolve_names);
+//  boost::thread resolve_names_thread(resolve_names);
+
+  s.bindAndListen(mmaster.port);
+  s.work(-1.0);
 
   #ifdef DEBUG
   cout << "main: Vou entrar no laço de leitura do teclado" << endl;
   #endif
 
-
   string keyboard_input;
-  while(1)
+  
+  while(true)
     {
     cin >> keyboard_input;
     if (keyboard_input == "exit")
       {
-      cout << "main: Finishing this master" << endl;
-    	 break;
+		  cout << "main: Finishing this master" << endl; 
+		  break;
+      }
+    if (keyboard_input == "print")
+      {
+         mmaster.printServerInfo();
       }
     }
 
@@ -382,11 +416,18 @@ int main(int argc, char **argv)
   // TODO
   // send a notification to others masters to notify that i am leaving
 
-  // Remove my address from parameter server
-  node_handle.setParam("/mmaster_addresses", mmaster.removeMyAddress(mmaster_addresses));
+  mmaster_addresses = mmaster.removeMyAddress(mmaster_addresses);
+
+  if (mmaster_addresses != "")
+    {
+    // Remove my address from parameter server
+    node_handle.setParam("/mmaster_addresses", mmaster_addresses);
+    }
+  else
+    node_handle.deleteParam("/mmaster_addresses");
 
   // Finalize thread who solve names
-  resolve_names_thread.join();
+//  resolve_names_thread.join();
 
   return 0;
 }
