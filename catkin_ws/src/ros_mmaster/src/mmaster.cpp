@@ -91,7 +91,42 @@ public:
   }
 } sum(&s);
 
+class registerSubscriber : public XmlRpcServerMethod
+{
+public:
+  registerSubscriber(XmlRpcServer* s) : XmlRpcServerMethod("registerSubscriber", s) {}
 
+  void execute(XmlRpcValue& params, XmlRpcValue& result)
+  {
+    string keyboard_input;
+    int nArgs = params.size();
+    cout << "nargs " << nArgs;
+    for (int i=0; i<nArgs; ++i)
+      cout << "registerSubscriber " << params[i] << endl;
+    //result = params[0];
+    //cin >> keyboard_input;
+    
+    std::vector<XmlRpcValue> arrValues;
+    
+    XmlRpcValue v1, v2, v3;
+    
+    v1 = 1;
+    v2 = "ola";
+    cin >> keyboard_input;
+    v3 = keyboard_input;
+    
+    arrValues.push_back(v1);
+    arrValues.push_back(v2);
+    arrValues.push_back(v3);
+
+    result[0] = v1;
+    result[1] = v2;
+    result[2][0] = v3;
+    
+  }
+} register_subscriber(&s);
+
+/*
 //TODO
 class setPrevious : public XmlRpcServerMethod
 {
@@ -107,7 +142,7 @@ public:
     result = sum;
   }
 } set_previous(&s);
-
+*/
 
 int main(int argc, char **argv)
 {
@@ -136,6 +171,9 @@ int main(int argc, char **argv)
   #endif
 
   node_handle.setParam("/mmaster_addresses", mmaster.addMyAddress(mmaster_addresses));
+
+  
+//  XmlRpc::setVerbosity(3);
 
   s.bindAndListen(mmaster.port);
   s.work(-1.0);
