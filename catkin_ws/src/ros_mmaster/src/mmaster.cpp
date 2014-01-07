@@ -149,8 +149,8 @@ int main(int argc, char **argv)
 
   ros::init(argc, argv, "mmaster");
 
-  mmaster.host = "localhost";
-  mmaster.port = (rand() % 64512) + 1024;    // choose a random a port between 1024 and 65536																																									// ports below 1024 requires root privileges and
+  mmaster.setHostname("localhost");
+  mmaster.setPort((rand() % 64512) + 1024);    // choose a random a port between 1024 and 65536																																									// ports below 1024 requires root privileges and
  																																												// max port number is 65536
   ros::NodeHandle node_handle;
   string mmaster_addresses;
@@ -175,7 +175,7 @@ int main(int argc, char **argv)
   
 //  XmlRpc::setVerbosity(3);
 
-  s.bindAndListen(mmaster.port);
+  s.bindAndListen(mmaster.port());
   s.work(-1.0);
 
   #ifdef DEBUG

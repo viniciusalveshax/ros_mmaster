@@ -1,15 +1,23 @@
 using namespace std;
 
+typedef struct {
+  string host;
+  int port;
+} address;
+
 class MMasterNode {
 
 public:
-  string host;
-  int port;
+  address my_address;
 
 string addMyAddress(string);
 string removeMyAddress(string);
 string myAddress(void);
 void   printServerInfo(void);
+string hostname(void) { return my_address.host; }
+void   setHostname(string new_hostname) { my_address.host = new_hostname; }
+int    port(void)     { return my_address.port; }
+void   setPort(int new_port) { my_address.port = new_port; }
 
 };
 
@@ -89,27 +97,27 @@ while (tmp_mmaster_addresses.size() != 0)
 cout << "add: Conseguiu inserir elemento no map" << endl;
 #endif
 
-while(addresses_map.count(this->port) > 0)
+while(addresses_map.count(this->port()) > 0)
   {
 
   #ifdef DEBUG
   cout << "add: Entrou no while2: Porta já existente" << endl;
   #endif
 
-  this->port = (rand() % 64512) + 1024; // choose a random a port between 1024 and 65536																									
+  this->setPort((rand() % 64512) + 1024); // choose a random a port between 1024 and 65536																									
 										// ports below 1024 requires root privileges and 
 										// max port number is 65536
   }
 
-addresses_map.insert(std::pair<int,string>(this->port,this->host));
+addresses_map.insert(std::pair<int,string>(this->port(),this->hostname()));
 
 cout << "add: Add my host and port to address list" << endl;
-cout << "add: Hostname: " << this->host << ", port: " << this->port << endl;
+cout << "add: Hostname: " << this->hostname() << ", port: " << this->port() << endl;
 
 if (mmaster_addresses.size() == 0)
-  mmaster_addresses_final << this->host << ":" << this->port;
+  mmaster_addresses_final << this->hostname() << ":" << this->port();
 else
-  mmaster_addresses_final << mmaster_addresses << ";" << this->host << ":" << this->port;
+  mmaster_addresses_final << mmaster_addresses << ";" << this->hostname() << ":" << this->port();
 
 #ifdef DEBUG
 cout << "add: printing map " << endl;
@@ -200,7 +208,7 @@ return before_addresses+";"+after_addresses;
 string MMasterNode::myAddress(void)
 {
 ostringstream address;
-address << this->host << ":" << this->port;
+address << this->hostname() << ":" << this->port();
 return address.str();
 }
 // End of method myAddress
@@ -208,6 +216,6 @@ return address.str();
 
 void MMasterNode::printServerInfo(void)
 {
-  cout << "Hostname: " << this->host << endl;
-  cout << "Port: " << this->port << endl;
+  cout << "Hostname: " << this->hostname() << endl;
+  cout << "Port: " << this->port() << endl;
 }
