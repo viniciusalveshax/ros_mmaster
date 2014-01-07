@@ -42,7 +42,7 @@ while (tmp_mmaster_addresses.size() != 0)
   #endif
 
   // Find mmaster_address separator
-  end = tmp_mmaster_addresses.find_first_of(";");
+  end = tmp_mmaster_addresses.find(";");
 
   #ifdef DEBUG
   cout << "add: Posição do ;" << end << endl;
@@ -56,7 +56,7 @@ while (tmp_mmaster_addresses.size() != 0)
   #endif
 
   // Find colon separator
-  colon = address.find_first_of(":");
+  colon = address.find(":");
 
   #ifdef DEBUG
   cout << "add: Posição do : " << colon << endl;
