@@ -52,7 +52,11 @@ int main(int argc, char **argv)
    * You must call one of the versions of ros::init() before using any other
    * part of the ROS system.
    */
-  ros::init(argc, argv, "listener");
+  std::string node_name;
+  std::cout << "Say the node name" << std::endl;
+  std::cin >> node_name;
+   
+  ros::init(argc, argv, node_name);
 
   /**
    * NodeHandle is the main access point to communications with the ROS system.
