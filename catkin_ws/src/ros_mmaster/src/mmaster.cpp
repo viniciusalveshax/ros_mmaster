@@ -1,11 +1,12 @@
+#define DEBUG
+
 #include "ros/ros.h"
 #include <string>
 #include <map>
 #include <sstream>
 #include "XmlRpc.h"
+#include "ros/xmlrpc_manager.h"
 #include "../include/ros_mmaster/mmasternode.h"
-
-#define DEBUG
 
 using namespace std;
 using namespace XmlRpc;
@@ -98,7 +99,7 @@ public:
 
   void execute(XmlRpcValue& params, XmlRpcValue& result)
   {
-    string keyboard_input;
+    string keyboard_input, str_result;
     int nArgs = params.size();
     cout << "nargs " << nArgs;
     for (int i=0; i<nArgs; ++i)
@@ -106,14 +107,26 @@ public:
     //result = params[0];
     //cin >> keyboard_input;
     
+    #ifdef DEBUG
+      cout << "execute: chamando search" << endl;
+    #endif
+    
+//    cin >> str_result;
+    str_result = mmaster.search(params);
+
+    
+
+    #ifdef DEBUG
+      cout << "execute: resultado da busca" << str_result << endl;
+    #endif
+    
     std::vector<XmlRpcValue> arrValues;
     
     XmlRpcValue v1, v2, v3;
     
     v1 = 1;
     v2 = "ola";
-    cin >> keyboard_input;
-    v3 = keyboard_input;
+    v3 = str_result;
     
     arrValues.push_back(v1);
     arrValues.push_back(v2);
@@ -148,6 +161,12 @@ int main(int argc, char **argv)
 {
 
   ros::init(argc, argv, "mmaster");
+
+  if (!mmaster.readAddressMaster())
+  {
+	cout << "There is no ROS_MASTER environment variable. Exiting ..." << endl;
+	exit(1);
+  }
 
   mmaster.setHostname("localhost");
   mmaster.setPort((rand() % 64512) + 1024);    // choose a random a port between 1024 and 65536																																									// ports below 1024 requires root privileges and
