@@ -14,7 +14,7 @@ using namespace XmlRpc;
 
 MMasterNode mmaster;
 XmlRpcServer s;
-
+bool thread_exit;
 
 class registerSubscriber : public XmlRpcServerMethod
 {
@@ -25,9 +25,11 @@ public:
   {
     string keyboard_input, str_result;
     int nArgs = params.size();
-    cout << "nargs " << nArgs;
-    for (int i=0; i<nArgs; ++i)
-      cout << "registerSubscriber " << params[i] << endl;
+    
+    cout << "Executando registerSubscriber on MMaster" << endl;
+//    cout << "nargs " << nArgs;
+//    for (int i=0; i<nArgs; ++i)
+//      cout << "registerSubscriber " << params[i] << endl;
     //result = params[0];
     //cin >> keyboard_input;
     
@@ -81,9 +83,43 @@ public:
 } set_previous(&s);
 */
 
-void xml_rpc_server_listen(void) {
+void xml_rpc_server_listen(void)
+{
   s.bindAndListen(mmaster.port());
   s.work(-1.0);
+}
+
+void update_mmaster_addresses(void)
+{
+  ros::NodeHandle node_handle;
+  string mmaster_addresses = "";
+
+  boost::posix_time::seconds work_time(10);  
+
+  while (thread_exit == false)
+    {
+	cout << "update_mmaster_address_thread: Updating mmaster address map"	<< endl;
+		
+    if (node_handle.hasParam("/mmaster_addresses"))
+	  {
+      #ifdef DEBUG
+      cout << "update_mmaster_addresses: Existe o parâmetro /mmaster_addresses" << endl;
+      #endif
+
+      // There is anothers mmasters running, get their address and atach my address
+	  node_handle.getParam("/mmaster_addresses", mmaster_addresses);
+
+      }
+
+    #ifdef DEBUG
+      cout << "update_mmaster_addresses: mmaster_addresses before addMyAddress:" << mmaster_addresses << endl;
+    #endif
+
+    // Update global param
+    node_handle.setParam("/mmaster_addresses", mmaster.addMyAddress(mmaster_addresses));	
+    
+    boost::this_thread::sleep(work_time);
+    }
 }
 
 int main(int argc, char **argv)
@@ -101,31 +137,17 @@ int main(int argc, char **argv)
   
   srand(time(NULL));
   mmaster.setPort((rand() % 64512) + 1024);    // choose a random a port between 1024 and 65536																																									// ports below 1024 requires root privileges and
- 																																												// max port number is 65536
-  ros::NodeHandle node_handle;
-  string mmaster_addresses;
-
-  if (node_handle.hasParam("/mmaster_addresses"))
-				{
-    #ifdef DEBUG
-    cout << "main: Existe o parâmetro /mmaster_addresses" << endl;
-    #endif
-
-    // There is another mmaster running, get their address and atach my address
-	node_handle.getParam("/mmaster_addresses", mmaster_addresses);
-
-    }
-
-  #ifdef DEBUG
-  cout << "main: mmaster_addresses before addMyAddress:" << mmaster_addresses << endl;
-  #endif
-
-  node_handle.setParam("/mmaster_addresses", mmaster.addMyAddress(mmaster_addresses));
-
-  
+			// max port number is 65536
+ 
 //  XmlRpc::setVerbosity(3);
 
+  thread_exit = false;
+  
   boost::thread xml_rpc_server_thread(xml_rpc_server_listen);
+ 
+  // Set false on first call to test later if I choose a port not used
+  mmaster.alreadyAddMyAddress(false);
+  boost::thread update_mmaster_addresses_thread(update_mmaster_addresses);
 
   #ifdef DEBUG
   cout << "main: Vou entrar no laço de leitura do teclado" << endl;
@@ -147,8 +169,13 @@ int main(int argc, char **argv)
       }
     }
 
+  thread_exit = true;
+
   // Shutdown XML RPC Server
   s.shutdown();
+
+  ros::NodeHandle node_handle;
+  string mmaster_addresses;
 
   // Get updated list from parameter server
   node_handle.getParam("/mmaster_addresses", mmaster_addresses);
