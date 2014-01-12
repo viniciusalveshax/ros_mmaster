@@ -50,7 +50,7 @@ int main(int argc, char **argv)
    * part of the ROS system.
    */
 // %Tag(INIT)%
-  ros::init(argc, argv, "talker");
+  ros::init(argc, argv, "talker", ros::init_options::AnonymousName);
 // %EndTag(INIT)%
 
   /**
@@ -79,8 +79,13 @@ int main(int argc, char **argv)
    * than we can send them, the number here specifies how many messages to
    * buffer up before throwing some away.
    */
+   
+  std::string topic_name;
+  std::cout << "Digite o nome do tópico a ser criado:" << std::endl;
+  std::cin >> topic_name;
+   
 // %Tag(PUBLISHER)%
-  ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
+  ros::Publisher chatter_pub = n.advertise<std_msgs::String>(topic_name, 1000);
 // %EndTag(PUBLISHER)%
 
 // %Tag(LOOP_RATE)%
