@@ -52,11 +52,8 @@ int main(int argc, char **argv)
    * You must call one of the versions of ros::init() before using any other
    * part of the ROS system.
    */
-  std::string node_name;
-  std::cout << "Say the node name" << std::endl;
-  std::cin >> node_name;
    
-  ros::init(argc, argv, node_name);
+  ros::init(argc, argv, "listener", ros::init_options::AnonymousName);
 
   /**
    * NodeHandle is the main access point to communications with the ROS system.
@@ -80,8 +77,13 @@ int main(int argc, char **argv)
    * is the number of messages that will be buffered up before beginning to throw
    * away the oldest ones.
    */
+   
+  std::string topic_name;
+  std::cout << "Digite o nome do tópico onde vou me conectar:" << std::endl;
+  std::cin >> topic_name;
+   
 // %Tag(SUBSCRIBER)%
-  ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
+  ros::Subscriber sub = n.subscribe(topic_name, 1000, chatterCallback);
 // %EndTag(SUBSCRIBER)%
 
   /**
