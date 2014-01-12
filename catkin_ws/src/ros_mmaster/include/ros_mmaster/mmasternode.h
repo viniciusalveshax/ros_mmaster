@@ -13,6 +13,7 @@ private:
   address my_address, next, prev, master_address;
   std::map<string,address> topics_providers_map;
   std::map<int,string> mmaster_addresses_map;
+  boost::mutex mutex_mmaster_addresses;
 
 public:
   string addMyAddress(string);
@@ -31,6 +32,7 @@ public:
   string masterHost(void) { return master_address.host; }
   int    masterPort(void) { return master_address.port; }
   address string2Address(string);
+  bool   string2Map(string);
 
 };
 
@@ -38,69 +40,8 @@ public:
 // Method that add MMaster address to mmaster addresses list
 string MMasterNode::addMyAddress(string mmaster_addresses)
 {
-int end = 0;
-int colon;
-string address, tmp_hostname, tmp_mmaster_addresses;
-std::pair<std::map<int,string>::iterator,bool> ret_value;
-int tmp_port;
+
 ostringstream mmaster_addresses_final;
-
-#ifdef DEBUG
-cout << "add: mmaster_addresses: " << mmaster_addresses << "." << endl;
-cout << "add: mmaster_addresses size: " << mmaster_addresses.size() << endl;
-#endif
-
-tmp_mmaster_addresses = mmaster_addresses;
-
-while (tmp_mmaster_addresses.size() != 0)
-  {
-
-  #ifdef DEBUG
-  cout << "add: Entrou no while1" << endl;
-  cout << "add: mmaster_addresses" << tmp_mmaster_addresses << endl;
-  #endif
-
-  // Find mmaster_address separator
-  end = tmp_mmaster_addresses.find(";");
-
-  #ifdef DEBUG
-  cout << "add: Posição do ;" << end << endl;
-  #endif
-
-  // Get first address
-  address = tmp_mmaster_addresses.substr(0,end);
-
-  #ifdef DEBUG
-  cout << "add: Primeiro endereço " << address << endl;
-  #endif
-
-  // Find colon separator
-  colon = address.find(":");
-
-  #ifdef DEBUG
-  cout << "add: Posição do : " << colon << endl;
-  #endif
-
-  tmp_hostname = address.substr(0, colon);
-  tmp_port = atoi(address.substr(colon+1, address.size()).c_str());
-
-  #ifdef DEBUG
-  cout << "add: address de : até o fim " << address.substr(colon+1, address.size()) << endl;
-  cout << "add: Hostname: " << tmp_hostname << endl;
-  cout << "add: Port: " << tmp_port << endl;
-  #endif
-
-  ret_value = mmaster_addresses_map.insert(std::pair<int,string>(tmp_port,tmp_hostname));
-  if (ret_value.second==false) {
-    cout << "add: A error has ocurred: cannot update mmaster addresses list" << endl;
-  }
-
-	 if (end == string::npos)
-	   break;
-
-	 tmp_mmaster_addresses = tmp_mmaster_addresses.substr(end+1,tmp_mmaster_addresses.size());
-
-	 } // end while
 
 //addresses_map.insert(std::pair<int,string>(200, "ola"));
 
@@ -108,19 +49,22 @@ while (tmp_mmaster_addresses.size() != 0)
 cout << "add: Conseguiu inserir elemento no map" << endl;
 #endif
 
-while(mmaster_addresses_map.count(this->port()) > 0)
+this->string2Map(mmaster_addresses);
+
+while(this->mmaster_addresses_map.count(this->port()) > 0)
   {
 
   #ifdef DEBUG
   cout << "add: Entrou no while2: Porta já existente" << endl;
   #endif
 
+  srand(time(NULL));
   this->setPort((rand() % 64512) + 1024); // choose a random a port between 1024 and 65536																									
 										// ports below 1024 requires root privileges and 
 										// max port number is 65536
   }
 
-mmaster_addresses_map.insert(std::pair<int,string>(this->port(),this->hostname()));
+this->mmaster_addresses_map.insert(std::pair<int,string>(this->port(),this->hostname()));
 
 cout << "add: Add my host and port to address list" << endl;
 cout << "add: Hostname: " << this->hostname() << ", port: " << this->port() << endl;
@@ -408,4 +352,78 @@ address MMasterNode::string2Address(string str)
   #endif
   
   return new_address;
+}
+
+bool MMasterNode::string2Map(string mmaster_addresses)
+{
+
+int end = 0;
+int colon;
+string address, tmp_hostname, tmp_mmaster_addresses;
+std::pair<std::map<int,string>::iterator,bool> ret_value;
+int tmp_port;
+tmp_mmaster_addresses = mmaster_addresses;
+
+#ifdef DEBUG
+cout << "string2Map: mmaster_addresses: " << mmaster_addresses << "." << endl;
+cout << "string2Map: mmaster_addresses size: " << mmaster_addresses.size() << endl;
+#endif
+
+this->mutex_mmaster_addresses.lock();
+this->mmaster_addresses_map.clear();
+
+while (tmp_mmaster_addresses.size() != 0)
+  {
+
+  #ifdef DEBUG
+  cout << "string2Map: Entrou no while1" << endl;
+  cout << "string2Map: mmaster_addresses" << tmp_mmaster_addresses << endl;
+  #endif
+
+  // Find mmaster_address separator
+  end = tmp_mmaster_addresses.find(";");
+
+  #ifdef DEBUG
+  cout << "string2Map: Posição do ;" << end << endl;
+  #endif
+
+  // Get first address
+  address = tmp_mmaster_addresses.substr(0,end);
+
+  #ifdef DEBUG
+  cout << "string2Map: Primeiro endereço " << address << endl;
+  #endif
+
+  // Find colon separator
+  colon = address.find(":");
+
+  #ifdef DEBUG
+  cout << "string2Map: Posição do : " << colon << endl;
+  #endif
+
+  tmp_hostname = address.substr(0, colon);
+  tmp_port = atoi(address.substr(colon+1, address.size()).c_str());
+
+  #ifdef DEBUG
+  cout << "string2Map: address de : até o fim " << address.substr(colon+1, address.size()) << endl;
+  cout << "string2Map: Hostname: " << tmp_hostname << endl;
+  cout << "string2Map: Port: " << tmp_port << endl;
+  #endif
+
+  ret_value = this->mmaster_addresses_map.insert(std::pair<int,string>(tmp_port,tmp_hostname));
+  if (ret_value.second==false) {
+    cout << "string2Map: A error has ocurred: cannot update mmaster addresses list" << endl;
+  }
+
+  if (end == string::npos)
+    break;
+
+  tmp_mmaster_addresses = tmp_mmaster_addresses.substr(end+1,tmp_mmaster_addresses.size());
+
+} // end while
+	 
+this->mutex_mmaster_addresses.unlock();	 
+
+return true;
+	 
 }
