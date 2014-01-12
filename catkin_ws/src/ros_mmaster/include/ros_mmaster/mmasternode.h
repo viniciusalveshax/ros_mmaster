@@ -14,6 +14,7 @@ private:
   std::map<string,address> topics_providers_map;
   std::map<int,string> mmaster_addresses_map;
   boost::mutex mutex_mmaster_addresses;
+  bool already_add_my_address;
 
 public:
   string addMyAddress(string);
@@ -33,7 +34,8 @@ public:
   int    masterPort(void) { return master_address.port; }
   address string2Address(string);
   bool   string2Map(string);
-
+  bool   alreadyAddMyAddress(void) { return already_add_my_address; }
+  void   alreadyAddMyAddress(bool new_setting) { already_add_my_address=new_setting; }
 };
 
 
@@ -51,28 +53,48 @@ cout << "add: Conseguiu inserir elemento no map" << endl;
 
 this->string2Map(mmaster_addresses);
 
-while(this->mmaster_addresses_map.count(this->port()) > 0)
+if (!this->alreadyAddMyAddress())
   {
 
-  #ifdef DEBUG
-  cout << "add: Entrou no while2: Porta já existente" << endl;
-  #endif
+  // My address is not on the list
+  // Test if a take a not used port
 
-  srand(time(NULL));
-  this->setPort((rand() % 64512) + 1024); // choose a random a port between 1024 and 65536																									
+  while(this->mmaster_addresses_map.count(this->port()) > 0)
+    {
+		
+    // While a take a already used port go on and takes a new one
+
+    #ifdef DEBUG
+      cout << "add: Entrou no while2: Porta já existente" << endl;
+    #endif
+
+    srand(time(NULL));
+    this->setPort((rand() % 64512) + 1024); // choose a random a port between 1024 and 65536																									
 										// ports below 1024 requires root privileges and 
 										// max port number is 65536
-  }
+    }
 
+  cout << "add: Add my host and port to address list" << endl;
+  cout << "add: Hostname: " << this->hostname() << ", port: " << this->port() << endl;
+
+  }
+  
+// Insert my own hostname and port to my list
 this->mmaster_addresses_map.insert(std::pair<int,string>(this->port(),this->hostname()));
 
-cout << "add: Add my host and port to address list" << endl;
-cout << "add: Hostname: " << this->hostname() << ", port: " << this->port() << endl;
-
 if (mmaster_addresses.size() == 0)
+  // If size == 0, so I am the unique master. Return my own information
   mmaster_addresses_final << this->hostname() << ":" << this->port();
 else
-  mmaster_addresses_final << mmaster_addresses << ";" << this->hostname() << ":" << this->port();
+  if (this->alreadyAddMyAddress())
+    // I already add my address on previous execution
+    mmaster_addresses_final << mmaster_addresses;
+  else
+    // This is my first execution, add my address
+    mmaster_addresses_final << mmaster_addresses << ";" << this->hostname() << ":" << this->port();
+
+// On next executions if I found a port equal my port its because it's me
+this->alreadyAddMyAddress(true);
 
 #ifdef DEBUG
 cout << "add: printing map " << endl;
@@ -173,6 +195,8 @@ void MMasterNode::printServerInfo(void)
 {
   cout << "Hostname: " << this->hostname() << endl;
   cout << "Port: " << this->port() << endl;
+  
+  //TODO Print internal tables too
 }
 
 string MMasterNode::search(XmlRpcValue& params)
@@ -193,17 +217,14 @@ string MMasterNode::search(XmlRpcValue& params)
   if (it != topics_providers_map.end())
   {
     // Found response in internal table
-    #ifdef DEBUG
-      cout << "search: Encontrei " << topic_name << " na minha tabela interna" << endl;
-    #endif
+    cout << "search: Encontrei " << topic_name << " na minha tabela interna" << endl;
+      
     provider_address = it->second;
     provider_address_tmp << provider_address.host << ":" << provider_address.port;
     return provider_address_tmp.str();
   }    
   
-  #ifdef DEBUG
-    cout << "search: Não encontrei na minha tabela interna" << endl;
-  #endif
+  cout << "search: Não encontrei na minha tabela interna" << endl;
   
   // get the mmaster node responsable by the topic
   mmaster_owner_address = this->getMMasterOwner(this->hashFunction(topic_name));
@@ -214,9 +235,9 @@ string MMasterNode::search(XmlRpcValue& params)
   // am i responsable by the topíc?
   if (this->isEqualMyAddress(mmaster_owner_address))
     {
-    #ifdef DEBUG
-      cout << "search: eu deveria saber a resposta. Repassando para o master" << endl;
-    #endif
+
+    cout << "search: eu deveria saber a resposta. Repassando para o master" << endl;
+
     // yes, i am responsable, but i dont have the result
     // so, i will consult the Master node
     // TODO get master node and port
@@ -228,9 +249,9 @@ string MMasterNode::search(XmlRpcValue& params)
     }
   else
     {
-    #ifdef DEBUG
-      cout << "search: eu não precisava ter a resposta, consultando outro mmaster" << endl;
-    #endif
+
+    cout << "search: eu não precisava ter a resposta, consultando outro mmaster na porta " << mmaster_owner_address.port << endl;
+
     // no, there is another node responsable
     // so, i will forward requisition
     XmlRpcClient *c = XMLRPCManager::instance()->getXMLRPCClient(mmaster_owner_address.host.c_str(), mmaster_owner_address.port, "/");
@@ -245,9 +266,7 @@ string MMasterNode::search(XmlRpcValue& params)
  
   topics_providers_map.insert(std::pair<string,address>(topic_name,string2Address(string(result[2][0]))));
     
-  #ifdef DEBUG
-    cout << "search: resultado da busca: " << string(result[2][0]) << endl;
-  #endif
+  cout << "search: resultado da busca: " << topic_name << "->" << string(result[2][0]) << endl;
   
   return string(result[2][0]);
 }
@@ -376,38 +395,38 @@ while (tmp_mmaster_addresses.size() != 0)
   {
 
   #ifdef DEBUG
-  cout << "string2Map: Entrou no while1" << endl;
-  cout << "string2Map: mmaster_addresses" << tmp_mmaster_addresses << endl;
+//  cout << "string2Map: Entrou no while1" << endl;
+//  cout << "string2Map: mmaster_addresses" << tmp_mmaster_addresses << endl;
   #endif
 
   // Find mmaster_address separator
   end = tmp_mmaster_addresses.find(";");
 
   #ifdef DEBUG
-  cout << "string2Map: Posição do ;" << end << endl;
+//  cout << "string2Map: Posição do ;" << end << endl;
   #endif
 
   // Get first address
   address = tmp_mmaster_addresses.substr(0,end);
 
   #ifdef DEBUG
-  cout << "string2Map: Primeiro endereço " << address << endl;
+//  cout << "string2Map: Primeiro endereço " << address << endl;
   #endif
 
   // Find colon separator
   colon = address.find(":");
 
   #ifdef DEBUG
-  cout << "string2Map: Posição do : " << colon << endl;
+//  cout << "string2Map: Posição do : " << colon << endl;
   #endif
 
   tmp_hostname = address.substr(0, colon);
   tmp_port = atoi(address.substr(colon+1, address.size()).c_str());
 
   #ifdef DEBUG
-  cout << "string2Map: address de : até o fim " << address.substr(colon+1, address.size()) << endl;
-  cout << "string2Map: Hostname: " << tmp_hostname << endl;
-  cout << "string2Map: Port: " << tmp_port << endl;
+//  cout << "string2Map: address de : até o fim " << address.substr(colon+1, address.size()) << endl;
+//  cout << "string2Map: Hostname: " << tmp_hostname << endl;
+//  cout << "string2Map: Port: " << tmp_port << endl;
   #endif
 
   ret_value = this->mmaster_addresses_map.insert(std::pair<int,string>(tmp_port,tmp_hostname));
