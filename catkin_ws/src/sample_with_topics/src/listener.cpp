@@ -77,13 +77,13 @@ int main(int argc, char **argv)
    * is the number of messages that will be buffered up before beginning to throw
    * away the oldest ones.
    */
-   
+  
   std::string topic_name;
   std::cout << "Digite o nome do tópico onde vou me conectar:" << std::endl;
   std::cin >> topic_name;
-   
+     
 // %Tag(SUBSCRIBER)%
-  ros::Subscriber sub = n.subscribe(topic_name, 1000, chatterCallback);
+  ros::Subscriber sub = n.subscribe(topic_name.c_str(), 1000, chatterCallback);
 // %EndTag(SUBSCRIBER)%
 
   /**
