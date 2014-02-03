@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "sample_with_topics")
-set(sample_with_topics_MAINTAINER "Vinicius Alves Hax <viniciushax@gmail.com>")
-set(sample_with_topics_DEPRECATED "")
-set(sample_with_topics_VERSION "0.0.1")
-set(sample_with_topics_BUILD_DEPENDS "roscpp" "std_msgs" "message_generation")
-set(sample_with_topics_RUN_DEPENDS "roscpp" "std_msgs" "message_runtime")
-set(sample_with_topics_BUILDTOOL_DEPENDS "catkin")

@@ -1,8 +1,0 @@
-prefix=/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/install
-
-Name: sample_with_topics
-Description: Description of sample_with_topics
-Version: 0.0.1
-Cflags: -I/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/install/include
-Libs: -L/home/vinicius/Dropbox/arv/projetos/mestradocomp/Dissertacao/mmaster_hydro/catkin_ws/install/lib 
-Requires: message_runtime
