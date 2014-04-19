@@ -1,5 +1,11 @@
 //#define DEBUG
 
+// Headers needed to get my ip address
+#include <sys/types.h>
+#include <ifaddrs.h>
+#include <netinet/in.h> 
+#include <arpa/inet.h>
+
 #include "ros/ros.h"
 #include <string>
 #include <map>
@@ -24,9 +30,11 @@ public:
   void execute(XmlRpcValue& params, XmlRpcValue& result)
   {
     string keyboard_input, str_result;
-    int nArgs = params.size();
+//    int nArgs = params.size();
     
+    #ifdef VERBOSE
     cout << "Executando registerSubscriber on MMaster" << endl;
+    #endif
 //    cout << "nargs " << nArgs;
 //    for (int i=0; i<nArgs; ++i)
 //      cout << "registerSubscriber " << params[i] << endl;
@@ -39,14 +47,12 @@ public:
     
 //    cin >> str_result;
     str_result = mmaster.search(params);
-
-    
-
+  
     #ifdef DEBUG
       cout << "execute: resultado da busca" << str_result << endl;
     #endif
     
-    std::vector<XmlRpcValue> arrValues;
+//    std::vector<XmlRpcValue> arrValues;
     
     XmlRpcValue v1, v2, v3;
     
@@ -54,9 +60,9 @@ public:
     v2 = "ola";
     v3 = str_result;
     
-    arrValues.push_back(v1);
-    arrValues.push_back(v2);
-    arrValues.push_back(v3);
+//    arrValues.push_back(v1);
+//    arrValues.push_back(v2);
+//    arrValues.push_back(v3);
 
     result[0] = v1;
     result[1] = v2;
@@ -98,13 +104,19 @@ void update_mmaster_addresses(void)
 
   while (thread_exit == false)
     {
+	#ifdef VERBOSE
 	cout << "update_mmaster_address_thread: Updating mmaster address map"	<< endl;
+	#endif
 		
     if (node_handle.hasParam("/mmaster_addresses"))
 	  {
       #ifdef DEBUG
       cout << "update_mmaster_addresses: Existe o parâmetro /mmaster_addresses" << endl;
       #endif
+
+      #ifdef VERBOSE
+	  ROS_INFO("Consulting param /mmaster_addresses");
+	  #endif
 
       // There is anothers mmasters running, get their address and atach my address
 	  node_handle.getParam("/mmaster_addresses", mmaster_addresses);
@@ -133,7 +145,7 @@ int main(int argc, char **argv)
 	exit(1);
   }
 
-  mmaster.setHostname("localhost");
+  mmaster.getIPAddress();
   
   srand(time(NULL));
   mmaster.setPort((rand() % 64512) + 1024);    // choose a random a port between 1024 and 65536																																									// ports below 1024 requires root privileges and
@@ -176,6 +188,8 @@ int main(int argc, char **argv)
 
   ros::NodeHandle node_handle;
   string mmaster_addresses;
+
+  ROS_INFO("Consulting param /mmaster_addresses");
 
   // Get updated list from parameter server
   node_handle.getParam("/mmaster_addresses", mmaster_addresses);

@@ -35,9 +35,17 @@
 // %Tag(CALLBACK)%
 void chatterCallback(const std_msgs::String::ConstPtr& msg)
 {
-  ROS_INFO("I heard:  [%s]", msg->data.c_str());
+  ;
+//  ROS_INFO("I heard:  [%s]", msg->data.c_str());
 }
 // %EndTag(CALLBACK)%
+
+long diff(timespec begin, timespec end) {
+	if (begin.tv_sec == end.tv_sec)
+		return (end.tv_nsec - begin.tv_nsec);
+    else
+        return (end.tv_nsec + (1000000000.0 - begin.tv_nsec) + (end.tv_sec-begin.tv_sec-1) * 1000000000);
+}
 
 int main(int argc, char **argv)
 {
@@ -78,21 +86,46 @@ int main(int argc, char **argv)
    * away the oldest ones.
    */
   
-  std::string topic_name;
-  std::cout << "Digite o nome do tópico onde vou me conectar:" << std::endl;
-  std::cin >> topic_name;
+//  std::cout << "P1" << std::endl;
+  
+  timespec time1, time2;
+  clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
+     
+//  std::cout << "P2" << std::endl;
      
 // %Tag(SUBSCRIBER)%
-  ros::Subscriber sub = n.subscribe(topic_name.c_str(), 1000, chatterCallback);
+  ros::Subscriber sub = n.subscribe(argv[1], 1000, chatterCallback);
 // %EndTag(SUBSCRIBER)%
+
+//  std::cout << "P3" << std::endl;
+
+//  if (sub)
+//    std::cout << "Subscriber not null" << std::endl;
+//  else
+//    std::cout << "Subscriber null" << std::endl;
+    
+  //if (n == NULL)
+    //std::cout << "NodeHandle not null" << std::endl;
+  //else
+    //std::cout << "NodeHandle null" << std::endl;
+
+  clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+
+//  std::cout << "P4" << std::endl;
+
+  std::cout << diff(time1,time2) << " nanosegundos" << std::endl;
+
+//  std::cout << "P5" << std::endl;
 
   /**
    * ros::spin() will enter a loop, pumping callbacks.  With this version, all
    * callbacks will be called from within this thread (the main one).  ros::spin()
    * will exit when Ctrl-C is pressed, or the node is shutdown by the master.
    */
+ 
+  if (sub)   
 // %Tag(SPIN)%
-  ros::spin();
+    ros::spin();
 // %EndTag(SPIN)%
 
   return 0;

@@ -79,15 +79,9 @@ int main(int argc, char **argv)
    * than we can send them, the number here specifies how many messages to
    * buffer up before throwing some away.
    */
-
-  std::cout << argv[1] << std::endl;
-   
-  std::string topic_name;
-  std::cout << "Digite o nome do tópico que eu vou criar:" << std::endl;
-  std::cin >> topic_name;
-   
+  
 // %Tag(PUBLISHER)%
-  ros::Publisher chatter_pub = n.advertise<std_msgs::String>(topic_name.c_str(), 1000);
+  ros::Publisher chatter_pub = n.advertise<std_msgs::String>(argv[1], 1000);
 // %EndTag(PUBLISHER)%
 
 // %Tag(LOOP_RATE)%

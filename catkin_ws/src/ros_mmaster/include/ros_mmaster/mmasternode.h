@@ -36,6 +36,7 @@ public:
   bool   string2Map(string);
   bool   alreadyAddMyAddress(void) { return already_add_my_address; }
   void   alreadyAddMyAddress(bool new_setting) { already_add_my_address=new_setting; }
+  void   getIPAddress(void);
 };
 
 
@@ -74,8 +75,10 @@ if (!this->alreadyAddMyAddress())
 										// max port number is 65536
     }
 
+  #ifdef DEBUG
   cout << "add: Add my host and port to address list" << endl;
   cout << "add: Hostname: " << this->hostname() << ", port: " << this->port() << endl;
+  #endif
 
   }
   
@@ -216,15 +219,19 @@ string MMasterNode::search(XmlRpcValue& params)
   
   if (it != topics_providers_map.end())
   {
+	#ifdef DEBUG
     // Found response in internal table
     cout << "search: Encontrei " << topic_name << " na minha tabela interna" << endl;
+    #endif
       
     provider_address = it->second;
     provider_address_tmp << provider_address.host << ":" << provider_address.port;
     return provider_address_tmp.str();
   }    
   
+  #ifdef DEBUG
   cout << "search: Não encontrei na minha tabela interna" << endl;
+  #endif
   
   // get the mmaster node responsable by the topic
   mmaster_owner_address = this->getMMasterOwner(this->hashFunction(topic_name));
@@ -250,7 +257,9 @@ string MMasterNode::search(XmlRpcValue& params)
   else
     {
 
+	#ifdef DEBUG
     cout << "search: eu não precisava ter a resposta, consultando outro mmaster na porta " << mmaster_owner_address.port << endl;
+	#endif
 
     // no, there is another node responsable
     // so, i will forward requisition
@@ -266,7 +275,9 @@ string MMasterNode::search(XmlRpcValue& params)
  
   topics_providers_map.insert(std::pair<string,address>(topic_name,string2Address(string(result[2][0]))));
     
+  #ifdef DEBUG
   cout << "search: resultado da busca: " << topic_name << "->" << string(result[2][0]) << endl;
+  #endif
   
   return string(result[2][0]);
 }
@@ -395,22 +406,22 @@ while (tmp_mmaster_addresses.size() != 0)
   {
 
   #ifdef DEBUG
-//  cout << "string2Map: Entrou no while1" << endl;
-//  cout << "string2Map: mmaster_addresses" << tmp_mmaster_addresses << endl;
+  cout << "string2Map: Entrou no while1" << endl;
+  cout << "string2Map: mmaster_addresses" << tmp_mmaster_addresses << endl;
   #endif
 
   // Find mmaster_address separator
   end = tmp_mmaster_addresses.find(";");
 
   #ifdef DEBUG
-//  cout << "string2Map: Posição do ;" << end << endl;
+  cout << "string2Map: Posição do ;" << end << endl;
   #endif
 
   // Get first address
   address = tmp_mmaster_addresses.substr(0,end);
 
   #ifdef DEBUG
-//  cout << "string2Map: Primeiro endereço " << address << endl;
+  cout << "string2Map: Primeiro endereço " << address << endl;
   #endif
 
   // Find colon separator
@@ -445,4 +456,43 @@ this->mutex_mmaster_addresses.unlock();
 
 return true;
 	 
+}
+
+void MMasterNode::getIPAddress(void) {
+	
+// Sample code from this method is a modification from here:
+// http://stackoverflow.com/questions/212528/get-the-ip-address-of-the-machine
+// Copyleft @Twelve47
+
+  struct ifaddrs * ifAddrStruct=NULL;
+  struct ifaddrs * ifa=NULL;
+  void * tmpAddrPtr=NULL;
+
+  getifaddrs(&ifAddrStruct);
+  
+  vector<string> my_ip_addresses;
+
+  for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) {
+      if (ifa ->ifa_addr->sa_family==AF_INET) { // check it is IP4
+          // is a valid IP4 Address
+          tmpAddrPtr=&((struct sockaddr_in *)ifa->ifa_addr)->sin_addr;
+          char addressBuffer[INET_ADDRSTRLEN];
+          inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
+
+          string my_ip_address(addressBuffer);
+          
+          if (my_ip_address != "127.0.0.1") {
+			  my_ip_addresses.push_back(my_ip_address);
+			  }
+      }
+  }
+
+  if (ifAddrStruct!=NULL) freeifaddrs(ifAddrStruct);
+
+  if (my_ip_addresses.size() == 1)
+    this->setHostname(my_ip_addresses[0]);
+  else
+	// TODO Add possibility to read from command line
+    cout << "What's my IP address? I dont know. Exiting ..." << endl;
+	
 }
